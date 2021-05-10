@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:ignore="UseCompoundDrawables">
+
+
+    <TextView
+        android:id="@+id/day"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:hint="Today"
+        app:layout_constraintBottom_toTopOf="@+id/weatherImage"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/weatherImage"
+        android:layout_width="59dp"
+        android:layout_height="61dp"
+        android:layout_gravity="left"
+        android:layout_marginStart="8dp"
+        android:paddingBottom="4dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="45dp" />
+
+    <TextView
+        android:id="@+id/weatherStatus"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="4dp"
+        android:layout_weight="0"
+        android:hint="Clear"
+        app:layout_constraintStart_toEndOf="@+id/weatherImage"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="77dp" />
+
+    <TextView
+        android:id="@+id/max_text"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:layout_gravity="right"
+        android:gravity="center"
+        android:hint="Max:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/max_value"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/max_value"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:hint="7C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/min_text"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/min_text"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:layout_gravity="right"
+        android:gravity="center|right"
+        android:hint="Min:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/min_value"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/min_value"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:layout_gravity="right"
+        android:gravity="center"
+        android:hint="7C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <View
+        style="@style/Divider"
+        android:paddingTop="8dp"
+        app:layout_constraintBottom_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
