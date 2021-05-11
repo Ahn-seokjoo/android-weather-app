@@ -24,3 +24,8 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.setHasFixedSize(true)
     }
 }
+// 1. SEOUL,LONDON, CHICAGO 쓰기
+// 2. 위에 날짜 Today, tommorrow
+// 3. 3번 불러야하는 것 (도시별)
+// 4. 리사이클러뷰 diff로 바꾸기
+// 5. 도씨 넣기
