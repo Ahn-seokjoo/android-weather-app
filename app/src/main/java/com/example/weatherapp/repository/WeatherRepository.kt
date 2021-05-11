@@ -2,7 +2,6 @@ package com.example.weatherapp.repository
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -11,16 +10,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 class WeatherRepository {
     private val BASE_URL = "https://www.metaweather.com/"
 
-    private val gson = GsonBuilder().setDateFormat("").create()
-
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     private val api = retrofit.create(WeatherAPI::class.java)
 
-    fun getWeather(){
+    fun getWeather(callback: (weathers: List<WeatherResult.WeathersResponse>) -> Unit) {
         val callGetWeathers = api.getWeather()
 
         callGetWeathers.enqueue( // enqueue 로 비동기 실행
@@ -31,11 +28,12 @@ class WeatherRepository {
                 ) {
                     response.body()?.let {
                         Log.d(TAG, "onResponse: ${it.weather_list}")
+                        callback.invoke(it.weather_list)
                     }
                 }
 
                 override fun onFailure(call: Call<WeatherResult>, t: Throwable) {
-                    Log.d(TAG, "onFailure: "+t.message)
+                    Log.d(TAG, "onFailure: " + t.message)
                 }
             }
         )

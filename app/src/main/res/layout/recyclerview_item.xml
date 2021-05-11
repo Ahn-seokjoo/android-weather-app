@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/day"
+        android:id="@+id/applicable_date"
         android:layout_width="wrap_content"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
@@ -39,6 +39,7 @@
         android:layout_gravity="bottom"
         android:layout_marginStart="4dp"
         android:layout_weight="0"
+        android:gravity="bottom"
         android:hint="Clear"
         app:layout_constraintStart_toEndOf="@+id/weatherImage"
         tools:ignore="MissingConstraints"
@@ -52,16 +53,16 @@
         android:gravity="center"
         android:hint="Max:"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/max_value"
+        app:layout_constraintEnd_toStartOf="@+id/max_temp"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/max_value"
+        android:id="@+id/max_temp"
         android:layout_width="40dp"
         android:layout_height="25dp"
         android:layout_gravity="center"
         android:layout_marginEnd="8dp"
-        android:gravity="center"
+        android:gravity="center|left"
         android:hint="7C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/min_text"
@@ -75,15 +76,15 @@
         android:gravity="center|right"
         android:hint="Min:"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/min_value"
+        app:layout_constraintEnd_toStartOf="@+id/min_temp"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/min_value"
+        android:id="@+id/min_temp"
         android:layout_width="40dp"
         android:layout_height="25dp"
         android:layout_gravity="right"
-        android:gravity="center"
+        android:gravity="center|left"
         android:hint="7C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
