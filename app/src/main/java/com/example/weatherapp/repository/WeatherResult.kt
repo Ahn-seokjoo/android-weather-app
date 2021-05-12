@@ -7,12 +7,11 @@ class WeatherResult(
     @SerializedName("consolidated_weather") var weather_list: List<WeathersResponse>,
     @SerializedName("title") var town: String
 ){
-
-data class WeathersResponse(
-    @SerializedName("applicable_date") var applicable_date: Date,
-    @SerializedName("weather_state_name") var weather_state_name: String,
-    @SerializedName("weather_state_abbr") var weather_state_abbr: String,
-    @SerializedName("min_temp") var min_temp: Double,
-    @SerializedName("max_temp") var max_temp: Double
-)}
+    data class WeathersResponse(
+        @SerializedName("applicable_date") var applicable_date: Date,
+        @SerializedName("weather_state_name") var weather_state_name: String,
+        @SerializedName("weather_state_abbr") var weather_state_abbr: String,
+        @SerializedName("min_temp") var min_temp: Double,
+        @SerializedName("max_temp") var max_temp: Double
+    )}
 

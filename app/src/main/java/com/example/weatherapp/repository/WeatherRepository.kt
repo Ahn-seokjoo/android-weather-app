@@ -27,7 +27,7 @@ class WeatherRepository {
                     response: Response<WeatherResult>
                 ) {
                     response.body()?.let {
-                        Log.d(TAG, "onResponse: ${it.weather_list}")
+//                        Log.d(TAG, "onResponse: ${it.weather_list}")
                         callback.invoke(it.weather_list)
                     }
                 }
