@@ -1,11 +1,11 @@
 package com.example.weatherapp.main.viewmodel
 
-import com.example.weatherapp.data.WeatherData
+import com.example.weatherapp.repository.WeatherResult
 
 class WeatherViewModel {
-    private val _weatherList = mutableListOf<WeatherData>()
+    private val _weatherList = mutableListOf<List<WeatherResult.WeathersResponse>>()
 
-    fun updateWeatherList(weather: WeatherData) {
+    fun updateWeatherList(weather: List<WeatherResult.WeathersResponse>) {
         _weatherList.add(weather)
     }
 }

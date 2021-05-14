@@ -32,15 +32,15 @@ class MainFragment(val viewModel: WeatherViewModel) : Fragment() {
         binding.recyclerView.adapter = adapter
 
         weatherRepo.getWeather(SEOUL) {
-            seoulWeatherList.add(it)
+            viewModel.updateWeatherList(it)
             adapter.submitList(it)
         }
         weatherRepo.getWeather(LONDON) {
-            londonWeatherList.add(it)
+            viewModel.updateWeatherList(it)
             adapter.submitList(it)
         }
         weatherRepo.getWeather(CHICAGO) {
-            chicagoWeatherList.add(it)
+            viewModel.updateWeatherList(it)
             adapter.submitList(it)
         }
         return binding.root
