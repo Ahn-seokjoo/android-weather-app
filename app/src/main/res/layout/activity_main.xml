@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_container_view"
+    android:name="com.example.weatherapp.main.MainFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".main.MainActivity">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/recyclerview_item" />
-
-</LinearLayout>
+    android:layout_height="match_parent" />

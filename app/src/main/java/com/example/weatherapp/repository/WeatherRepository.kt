@@ -17,8 +17,8 @@ class WeatherRepository {
 
     private val api = retrofit.create(WeatherAPI::class.java)
 
-    fun getWeather(callback: (weathers: List<WeatherResult.WeathersResponse>) -> Unit) {
-        val callGetWeathers = api.getWeather()
+    fun getWeather(city: Int, callback: (weathers: List<WeatherResult.WeathersResponse>) -> Unit) {
+        val callGetWeathers = api.getWeather(city)
 
         callGetWeathers.enqueue( // enqueue 로 비동기 실행
             object : retrofit2.Callback<WeatherResult> {

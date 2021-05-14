@@ -2,10 +2,11 @@ package com.example.weatherapp.repository
 
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface WeatherAPI {
-    @GET("api/location/1132599") //서울 주소
+    @GET("api/location/{city}") //서울 주소
     fun getWeather(
-
+        @Path("city") city: Int
     ): Call<WeatherResult>
 }
