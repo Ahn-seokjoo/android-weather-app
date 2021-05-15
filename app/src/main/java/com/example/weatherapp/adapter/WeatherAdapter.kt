@@ -26,19 +26,7 @@ class WeatherAdapter :
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
         val result = getItem(position)
         // 날짜 계산
-        if (count == 1) {
-            holder.binding.applicableDate.text = "Today"
-            count = 2
-        } else if (count == 2) {
-            holder.binding.applicableDate.text = "Tommorrow"
-            count += 1
-        } else {
-            holder.binding.applicableDate.text = SimpleDateFormat("E d MMM").format(result.applicable_date)
-            if (count == 5) {
-                count = 1
-            }
-        }
-
+        holder.binding.applicableDate.text = SimpleDateFormat("E d MMM").format(result.applicable_date)
         // 이미지 Glide로 파싱
         val imageURL = BASE_IMAGE_URL + getItem(holder.adapterPosition).weather_state_abbr + ".png"
         Glide.with(holder.binding.weatherImage.context).load(imageURL)
