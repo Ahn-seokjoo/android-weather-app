@@ -11,7 +11,6 @@ class WeatherViewModel : ViewModel() {
     private val repository = MemoryWeatherRepository()
     val weatherRepo = WeatherRepository()
 
-
     private val _weatherListLiveData = MutableLiveData<List<List<WeatherResult.WeathersResponse>>>()
 
     val weatherListLiveData: LiveData<List<List<WeatherResult.WeathersResponse>>>

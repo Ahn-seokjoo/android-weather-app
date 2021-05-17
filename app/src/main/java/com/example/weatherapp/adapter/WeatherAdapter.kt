@@ -8,6 +8,9 @@ import com.example.weatherapp.databinding.RecyclerviewItemBinding
 import com.example.weatherapp.holder.WeatherViewHolder
 import com.example.weatherapp.repository.WeatherResult
 import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 const val BASE_IMAGE_URL = "https://www.metaweather.com/static/img/weather/png/"
 private var count = 1
@@ -26,16 +29,27 @@ class WeatherAdapter :
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
         val result = getItem(position)
         // 날짜 계산
-        holder.binding.applicableDate.text = SimpleDateFormat("E d MMM").format(result.applicable_date)
+        val today = LocalDateTime.now()
+        val endDates = result.applicable_date.toInstant().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()
+        val between = Duration.between(today, endDates).toDays().toInt()
+
+        if (between == 0) {
+            holder.binding.applicableDate.text = "Today"
+        } else if (between == 1) {
+            holder.binding.applicableDate.text = "Tommorow"
+        } else {
+            holder.binding.applicableDate.text = SimpleDateFormat("E d MMM").format(result.applicable_date)
+        }
+
         // 이미지 Glide로 파싱
-        val imageURL = BASE_IMAGE_URL + getItem(holder.adapterPosition).weather_state_abbr + ".png"
+        val imageURL = BASE_IMAGE_URL + getItem(holder.bindingAdapterPosition).weather_state_abbr + ".png"
         Glide.with(holder.binding.weatherImage.context).load(imageURL)
             .into(holder.binding.weatherImage)
 
         with(holder.binding) {
             weatherStatus.text = result.weather_state_name
-            maxTemp.text = result.max_temp.toInt().toString()
-            minTemp.text = result.min_temp.toInt().toString()
+            maxTemp.text = result.max_temp.toInt().toString() + "℃"
+            minTemp.text = result.min_temp.toInt().toString() + "℃"
         }
     }
 
