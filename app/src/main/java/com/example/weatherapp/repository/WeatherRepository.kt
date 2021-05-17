@@ -39,5 +39,7 @@ class WeatherRepository {
         )
     }
 
+    suspend fun getWeatherAsync(city: Int) = api.getWeatherAsync(city).weather_list
+
 
 }

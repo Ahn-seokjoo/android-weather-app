@@ -9,4 +9,9 @@ interface WeatherAPI {
     fun getWeather(
         @Path("city") city: Int
     ): Call<WeatherResult>
+
+    @GET("api/location/{city}")
+    suspend fun getWeatherAsync(@Path("city") city: Int): WeatherResult
+
+
 }
