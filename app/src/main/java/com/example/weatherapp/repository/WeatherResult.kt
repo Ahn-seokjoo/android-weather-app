@@ -5,7 +5,6 @@ import java.util.*
 
 class WeatherResult(
     @SerializedName("consolidated_weather") var weather_list: List<WeathersResponse>,
-    @SerializedName("title") var town: String
 ){
     data class WeathersResponse(
         @SerializedName("applicable_date") var applicable_date: Date,

@@ -3,17 +3,19 @@ package com.example.weatherapp.main.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.weatherapp.repository.MemoryWeatherRepository
 import com.example.weatherapp.repository.WeatherResult
 
 class WeatherViewModel : ViewModel() {
-    private val _weatherList = mutableListOf<List<WeatherResult.WeathersResponse>>()
+    private val repository = MemoryWeatherRepository()
 
-    val weatherList: List<List<WeatherResult.WeathersResponse>>
-        get() = _weatherList
+    private val _weatherListLiveData = MutableLiveData<List<List<WeatherResult.WeathersResponse>>>()
+
     val weatherListLiveData: LiveData<List<List<WeatherResult.WeathersResponse>>>
-        get() = MutableLiveData(_weatherList)
+        get() = _weatherListLiveData
 
     fun updateWeatherList(weather: List<WeatherResult.WeathersResponse>) {
-        _weatherList.add(weather)
+        repository.updateWeatherList(weather)
+        _weatherListLiveData.value = repository.weatherList
     }
 }

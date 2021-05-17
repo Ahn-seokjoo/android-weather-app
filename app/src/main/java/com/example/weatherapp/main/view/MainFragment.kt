@@ -1,4 +1,4 @@
-package com.example.weatherapp.main
+package com.example.weatherapp.main.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,7 +32,7 @@ class MainFragment() : Fragment() {
 
         weatherRepo.getWeather(SEOUL) {
             viewModel.updateWeatherList(it)
-//            adapter.submitList(viewModel.weatherList)
+            adapter.submitList(it)
         }
         weatherRepo.getWeather(LONDON) {
             viewModel.updateWeatherList(it)
