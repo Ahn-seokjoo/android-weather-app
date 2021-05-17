@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.weatherapp.adapter.CityAdapter
 import com.example.weatherapp.adapter.WeatherAdapter
 import com.example.weatherapp.databinding.FragmentMainBinding
 import com.example.weatherapp.main.viewmodel.WeatherViewModel
@@ -35,12 +37,25 @@ class MainFragment() : Fragment() {
 
         //코루틴 시작 - 순서를 보장해줌
         lifecycleScope.launch {
-            val seoulWeatherList = viewModel.weatherRepo.getWeatherAsync(SEOUL)
-            val londonWeatherList = viewModel.weatherRepo.getWeatherAsync(LONDON)
-            val chicagoWeatherList = viewModel.weatherRepo.getWeatherAsync(CHICAGO)
+            val seoulTitleAdapter = CityAdapter("Seoul")
 
-            val weatherList = seoulWeatherList + londonWeatherList + chicagoWeatherList
-            adapter.submitList(weatherList)
+            val seoulWeatherAdapter = WeatherAdapter()
+            seoulWeatherAdapter.submitList(viewModel.weatherRepo.getWeatherAsync(SEOUL))
+
+            val londonTitleList = CityAdapter("London")
+            val londonWeatherAdapter = WeatherAdapter()
+            londonWeatherAdapter.submitList(viewModel.weatherRepo.getWeatherAsync(LONDON))
+
+            val chicagoTitleList = CityAdapter("Chicago")
+            val chicagoWeatherAdapter = WeatherAdapter()
+            chicagoWeatherAdapter.submitList(viewModel.weatherRepo.getWeatherAsync(CHICAGO))
+
+            val adapter = ConcatAdapter(
+                seoulTitleAdapter, seoulWeatherAdapter,
+                londonTitleList, londonWeatherAdapter,
+                chicagoTitleList, chicagoWeatherAdapter
+            )
+            binding.recyclerView.adapter = adapter
         }
 
         //데이터 관찰

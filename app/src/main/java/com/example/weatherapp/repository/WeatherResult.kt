@@ -12,5 +12,6 @@ class WeatherResult(
         @SerializedName("weather_state_abbr") var weather_state_abbr: String,
         @SerializedName("min_temp") var min_temp: Double,
         @SerializedName("max_temp") var max_temp: Double
-    )}
+    )
+}
 

@@ -56,4 +56,7 @@ dependencies {
     //fragment
     def fragment_version = "1.3.0"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
+    //mergeadapter
+    implementation "androidx.recyclerview:recyclerview:1.2.0"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 }
