@@ -33,23 +33,20 @@ class WeatherAdapter :
         val endDates = result.applicable_date.toInstant().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()
         val between = Duration.between(today, endDates).toDays().toInt()
 
-        if (between == 0) {
-            holder.binding.applicableDate.text = "Today"
-        } else if (between == 1) {
-            holder.binding.applicableDate.text = "Tommorow"
-        } else {
-            holder.binding.applicableDate.text = SimpleDateFormat("E d MMM").format(result.applicable_date)
-        }
-
         // 이미지 Glide로 파싱
         val imageURL = BASE_IMAGE_URL + getItem(holder.bindingAdapterPosition).weather_state_abbr + ".png"
         Glide.with(holder.binding.weatherImage.context).load(imageURL)
             .into(holder.binding.weatherImage)
 
         with(holder.binding) {
+            applicableDate.text = when (between) {
+                0 -> "Today"
+                1 -> "Tommorow"
+                else -> SimpleDateFormat("E d MMM").format(result.applicable_date)
+            }
             weatherStatus.text = result.weather_state_name
-            maxTemp.text = result.max_temp.toInt().toString() + "℃"
-            minTemp.text = result.min_temp.toInt().toString() + "℃"
+            maxTemp.text = "${result.max_temp.toInt()} + ℃"
+            minTemp.text = "${result.min_temp.toInt()} + ℃"
         }
     }
 
