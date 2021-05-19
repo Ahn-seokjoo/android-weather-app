@@ -13,5 +13,4 @@ interface WeatherAPI {
     @GET("api/location/{city}")
     suspend fun getWeatherAsync(@Path("city") city: Int): WeatherResult
 
-
 }

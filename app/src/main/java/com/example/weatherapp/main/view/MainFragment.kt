@@ -1,6 +1,8 @@
 package com.example.weatherapp.main.view
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +36,7 @@ class MainFragment() : Fragment() {
         val adapter = WeatherAdapter()
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)) //구분선 추가
-
+        Log.d(TAG, "onCreateView: a")
         //코루틴 시작 - 순서를 보장해줌
         lifecycleScope.launch {
             val seoulTitleAdapter = CityAdapter("Seoul")
