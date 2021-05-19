@@ -13,14 +13,14 @@
 ### **사용 외부 라이브러리**
 ---
 1. Layout
-- [recyclerView]("https://developer.android.com/guide/topics/ui/layout/recyclerview")
+- [recyclerView](https://developer.android.com/guide/topics/ui/layout/recyclerview)
 2. Jetpack
 - recyclerView
 - coroutine
 - ViewModel
 - Fragment
-3. [Glide]("https://github.com/bumptech/glide")
-4. [Retrofit2]("https://github.com/square/retrofit")
+3. [Glide](https://github.com/bumptech/glide)
+4. [Retrofit2](https://github.com/square/retrofit)
 
 ### **개발 환경**
 ---
