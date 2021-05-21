@@ -16,7 +16,6 @@
 - [recyclerView](https://developer.android.com/guide/topics/ui/layout/recyclerview)
 2. Jetpack
 - recyclerView
-- coroutine
 - ViewModel
 - Fragment
 3. [Glide](https://github.com/bumptech/glide)
