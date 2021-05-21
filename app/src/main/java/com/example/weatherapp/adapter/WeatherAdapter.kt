@@ -34,7 +34,7 @@ class WeatherAdapter :
         val between = Duration.between(today, endDates).toDays().toInt()
 
         // 이미지 Glide로 파싱
-        val imageURL = BASE_IMAGE_URL + getItem(holder.bindingAdapterPosition).weather_state_abbr + ".png"
+        val imageURL = BASE_IMAGE_URL + getItem(holder.bindingAdapterPosition).weather_State_Abbr + ".png"
         Glide.with(holder.binding.weatherImage.context).load(imageURL)
             .into(holder.binding.weatherImage)
 
@@ -44,9 +44,9 @@ class WeatherAdapter :
                 1 -> "Tommorow"
                 else -> SimpleDateFormat("E d MMM").format(result.applicable_date)
             }
-            weatherStatus.text = result.weather_state_name
-            maxTemp.text = "${result.max_temp.toInt()} + ℃"
-            minTemp.text = "${result.min_temp.toInt()} + ℃"
+            weatherStatus.text = result.weather_State_Name
+            maxTemp.text = "${result.max_Temp.toInt()} + ℃"
+            minTemp.text = "${result.min_Temp.toInt()} + ℃"
         }
     }
 

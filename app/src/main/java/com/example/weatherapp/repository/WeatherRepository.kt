@@ -13,5 +13,5 @@ class WeatherRepository {
 
     private val api = retrofit.create(WeatherAPI::class.java)
 
-    suspend fun getWeatherAsync(city: Int) = api.getWeatherAsync(city).weather_list
+    suspend fun getWeatherAsync(city: Int) = api.getWeatherAsync(city).weather_List
 }
