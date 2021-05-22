@@ -30,6 +30,11 @@ class MainFragment() : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val adapter = WeatherAdapter()
         binding.recyclerView.adapter = adapter
@@ -57,12 +62,6 @@ class MainFragment() : Fragment() {
             )
             binding.recyclerView.adapter = adapter
         }
-
-        //데이터 관찰
-//        viewModel.weatherListLiveData.observe(viewLifecycleOwner){
-//            adapter.submitList(it)
-//        }
-        return binding.root
     }
 
     override fun onDestroyView() {
