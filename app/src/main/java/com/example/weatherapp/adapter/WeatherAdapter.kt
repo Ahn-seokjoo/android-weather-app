@@ -13,7 +13,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 const val BASE_IMAGE_URL = "https://www.metaweather.com/static/img/weather/png/"
-private var count = 1
 
 class WeatherAdapter :
     ListAdapter<WeatherResult.WeathersResponse, WeatherViewHolder>(WeatherDiffCallback) {
