@@ -45,8 +45,8 @@ class WeatherAdapter :
                 else -> SimpleDateFormat("E d MMM").format(result.applicable_date)
             }
             weatherStatus.text = result.weather_State_Name
-            maxTemp.text = "${result.max_Temp.toInt()} + ℃"
-            minTemp.text = "${result.min_Temp.toInt()} + ℃"
+            maxTemp.text = "${result.max_Temp.toInt()}℃"
+            minTemp.text = "${result.min_Temp.toInt()}℃"
         }
     }
 
