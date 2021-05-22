@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.databinding.ItemCityNameBinding
+import com.example.weatherapp.holder.CityViewHolder
 
-class CityAdapter(private val cityName: String) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
-
-    class CityViewHolder(val binding: ItemCityNameBinding) : RecyclerView.ViewHolder(binding.root)
+class CityAdapter(private val cityName: String) : RecyclerView.Adapter<CityViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
         val inflater = LayoutInflater.from(parent.context)
