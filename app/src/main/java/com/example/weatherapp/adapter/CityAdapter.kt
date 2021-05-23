@@ -10,13 +10,12 @@ class CityAdapter(private val cityName: String) : ListAdapter<String,CityViewHol
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding: ItemCityNameBinding =
-            ItemCityNameBinding.inflate(inflater, parent, false)
+        val binding: ItemCityNameBinding = ItemCityNameBinding.inflate(inflater, parent, false)
         return CityViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
-        holder.binding.city.text = cityName
+        holder.onBind(cityName)
     }
 
     override fun getItemCount(): Int = 1
