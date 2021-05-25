@@ -1,4 +1,4 @@
-package com.example.weatherapp.adapter
+package com.example.weatherapp.main.view.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 

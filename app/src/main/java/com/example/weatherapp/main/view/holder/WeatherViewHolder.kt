@@ -1,9 +1,9 @@
-package com.example.weatherapp.holder
+package com.example.weatherapp.main.view.holder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.weatherapp.adapter.BASE_IMAGE_URL
 import com.example.weatherapp.databinding.RecyclerviewItemBinding
+import com.example.weatherapp.main.view.adapter.BASE_IMAGE_URL
 import com.example.weatherapp.repository.WeatherResult
 import java.text.SimpleDateFormat
 import java.time.Duration
@@ -12,8 +12,7 @@ import java.time.ZoneId
 
 class WeatherViewHolder(private val binding: RecyclerviewItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun onBind(result: WeatherResult.WeathersResponse) {
-
+    fun onBind(result: WeatherResult) {
         val today = LocalDateTime.now()
         val endDates = result.applicable_date.toInstant().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()
         val between = Duration.between(today, endDates).toDays().toInt()

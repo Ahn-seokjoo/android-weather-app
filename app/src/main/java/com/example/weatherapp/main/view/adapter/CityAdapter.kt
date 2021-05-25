@@ -1,10 +1,10 @@
-package com.example.weatherapp.adapter
+package com.example.weatherapp.main.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.weatherapp.databinding.ItemCityNameBinding
-import com.example.weatherapp.holder.CityViewHolder
+import com.example.weatherapp.main.view.holder.CityViewHolder
 
 class CityAdapter(private val cityName: String) : ListAdapter<String,CityViewHolder>(CityDiffCallback) {
 

@@ -6,15 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weatherapp.adapter.CityAdapter
-import com.example.weatherapp.adapter.WeatherAdapter
 import com.example.weatherapp.databinding.FragmentMainBinding
+import com.example.weatherapp.main.view.adapter.WeatherAdapter
 import com.example.weatherapp.main.viewmodel.WeatherViewModel
-import kotlinx.coroutines.launch
 
 class MainFragment() : Fragment() {
     companion object {
@@ -40,27 +36,9 @@ class MainFragment() : Fragment() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)) //구분선 추가
 
-        //코루틴 시작 - 순서를 보장해줌
-        lifecycleScope.launch {
-            val seoulTitleAdapter = CityAdapter("Seoul")
-
-            val seoulWeatherAdapter = WeatherAdapter()
-            seoulWeatherAdapter.submitList(viewModel.weatherRepo.getWeatherAsync(SEOUL))
-
-            val londonTitleList = CityAdapter("London")
-            val londonWeatherAdapter = WeatherAdapter()
-            londonWeatherAdapter.submitList(viewModel.weatherRepo.getWeatherAsync(LONDON))
-
-            val chicagoTitleList = CityAdapter("Chicago")
-            val chicagoWeatherAdapter = WeatherAdapter()
-            chicagoWeatherAdapter.submitList(viewModel.weatherRepo.getWeatherAsync(CHICAGO))
-
-            val adapter = ConcatAdapter(
-                seoulTitleAdapter, seoulWeatherAdapter,
-                londonTitleList, londonWeatherAdapter,
-                chicagoTitleList, chicagoWeatherAdapter
-            )
-            binding.recyclerView.adapter = adapter
+        viewModel.getSeoulWeather(SEOUL)
+        viewModel.weatherLiveData.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
     }
 

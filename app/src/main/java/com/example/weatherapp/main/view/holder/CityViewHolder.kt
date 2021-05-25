@@ -1,4 +1,4 @@
-package com.example.weatherapp.holder
+package com.example.weatherapp.main.view.holder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.databinding.ItemCityNameBinding
