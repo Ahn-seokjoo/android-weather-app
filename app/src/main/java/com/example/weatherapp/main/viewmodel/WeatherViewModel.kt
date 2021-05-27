@@ -8,7 +8,10 @@ import com.example.weatherapp.repository.WeatherResult
 
 class WeatherViewModel : ViewModel() {
     private val weatherRepo = WeatherRepository()
-    private val seoulWeatherList = mutableListOf<WeatherResult>()
+
+    private val _seoulWeatherList = mutableListOf<WeatherResult>()
+    val seoulWeatherList: List<WeatherResult>
+        get() = _seoulWeatherList
 
     private val _weatherLiveData = MutableLiveData<List<WeatherResult>>()
     val weatherLiveData: LiveData<List<WeatherResult>>
@@ -16,8 +19,8 @@ class WeatherViewModel : ViewModel() {
 
     fun getSeoulWeather(city: Int) {
         weatherRepo.getWeather(city) {
-            seoulWeatherList.addAll(it)
-            _weatherLiveData.postValue(seoulWeatherList)
+            _seoulWeatherList.addAll(it)
+            _weatherLiveData.postValue(_seoulWeatherList)
 //            Log.d(TAG, "getSeoulWeather: $seoulWeatherList")
         }
     }

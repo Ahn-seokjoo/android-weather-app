@@ -1,6 +1,8 @@
 package com.example.weatherapp.main.view
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.weatherapp.CityInfo
+import com.example.weatherapp.WeatherInfo
 import com.example.weatherapp.databinding.FragmentMainBinding
+import com.example.weatherapp.main.WeatherModel
 import com.example.weatherapp.main.view.adapter.WeatherAdapter
 import com.example.weatherapp.main.viewmodel.WeatherViewModel
+import java.time.LocalDate
 
 class MainFragment() : Fragment() {
     companion object {
@@ -31,15 +37,24 @@ class MainFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val adapter = WeatherAdapter()
+        val list = listOf(
+            WeatherModel(WeatherModel.CITY_INFO, CityInfo("SEOUL"), null),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDate.now(), "heavy cloud", 2.444, 3.112)),
+//            WeatherModel(WeatherModel.CITY_INFO, CityInfo("LONDON"),null),
+//            WeatherModel(WeatherModel.WEATHER_INFO,null, WeatherInfo(LocalDate.now().plusDays(1),"heavy cloud",2.444,3.112)),
+//            WeatherModel(WeatherModel.CITY_INFO, CityInfo("CHICAGO"),null),
+//            WeatherModel(WeatherModel.WEATHER_INFO,null, WeatherInfo(LocalDate.now(),"heavy cloud",2.444,3.112))
+        )
+        val adapter = WeatherAdapter(list)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)) //구분선 추가
 
         viewModel.getSeoulWeather(SEOUL)
+        Log.d(TAG, "onViewCreated: ${viewModel.seoulWeatherList}")
         viewModel.weatherLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+//        adapter.submitList(list)
     }
 
     override fun onDestroyView() {
