@@ -1,9 +1,10 @@
 package com.example.weatherapp
 
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class WeatherInfo(
-    val date: LocalDate,
+    val date: LocalDateTime,
+    val weatherStateName: String,
     val weatherStateAbbr: String,
     val minTemp: Double,
     val maxTemp: Double

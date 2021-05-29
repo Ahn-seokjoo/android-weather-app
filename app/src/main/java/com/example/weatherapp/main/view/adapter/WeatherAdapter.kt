@@ -10,10 +10,9 @@ import com.example.weatherapp.main.WeatherModel
 import com.example.weatherapp.main.WeatherModel.Companion.CITY_INFO
 import com.example.weatherapp.main.WeatherModel.Companion.WEATHER_INFO
 import com.example.weatherapp.repository.WeatherResult
-import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalDate
-import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 const val BASE_IMAGE_URL = "https://www.metaweather.com/static/img/weather/png/"
 
@@ -55,7 +54,9 @@ class WeatherAdapter(private val list: List<WeatherModel>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when ((list[position].type)) {
             CITY_INFO -> (holder as CityViewHolder).onBind("SEOUL")
-            WEATHER_INFO -> (holder as WeatherViewHolder).onBind(weatherList[position])
+            WEATHER_INFO -> {
+                (holder as WeatherViewHolder).onBind(list[position])
+            }
         }
     }
 
@@ -71,14 +72,14 @@ class CityViewHolder(private val binding: ItemCityNameBinding) :
 class WeatherViewHolder(private val binding: RecyclerviewItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(result: WeatherResult) {
+    fun onBind(result: WeatherModel) {
 
         val today = LocalDate.now().atStartOfDay()
-        val endDates = result.applicable_date.toInstant().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime()
+        val endDates = result.weatherInfo?.date
         val between = Duration.between(today, endDates).toDays().toInt()
 
         /** 이미지 Glide로 파싱 **/
-        val imageURL = BASE_IMAGE_URL + result.weather_State_Abbr + ".png"
+        val imageURL = BASE_IMAGE_URL + result.weatherInfo?.weatherStateAbbr + ".png"
         Glide.with(binding.weatherImage.context).load(imageURL)
             .into(binding.weatherImage)
 
@@ -86,11 +87,11 @@ class WeatherViewHolder(private val binding: RecyclerviewItemBinding) :
             applicableDate.text = when (between) {
                 0 -> "Today"
                 1 -> "Tomorrow"
-                else -> SimpleDateFormat("E d MMM").format(result.applicable_date)
+                else -> (result.weatherInfo?.date)?.format(DateTimeFormatter.ofPattern("E dd MMM"))
             }
-            weatherStatus.text = result.weather_State_Abbr
-            maxTemp.text = "${result.max_Temp?.toInt()}℃"
-            minTemp.text = "${result.min_Temp?.toInt()}℃"
+            weatherStatus.text = result.weatherInfo?.weatherStateName
+            maxTemp.text = "${result.weatherInfo?.maxTemp?.toInt()}℃"
+            minTemp.text = "${result.weatherInfo?.minTemp?.toInt()}℃"
         }
     }
 }

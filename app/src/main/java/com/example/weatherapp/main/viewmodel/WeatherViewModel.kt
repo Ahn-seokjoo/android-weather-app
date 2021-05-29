@@ -21,7 +21,6 @@ class WeatherViewModel : ViewModel() {
         weatherRepo.getWeather(city) {
             _seoulWeatherList.addAll(it)
             _weatherLiveData.postValue(_seoulWeatherList)
-//            Log.d(TAG, "getSeoulWeather: $seoulWeatherList")
         }
     }
 }

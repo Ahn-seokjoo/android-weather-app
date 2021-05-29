@@ -1,8 +1,6 @@
 package com.example.weatherapp.main.view
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +14,7 @@ import com.example.weatherapp.databinding.FragmentMainBinding
 import com.example.weatherapp.main.WeatherModel
 import com.example.weatherapp.main.view.adapter.WeatherAdapter
 import com.example.weatherapp.main.viewmodel.WeatherViewModel
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 class MainFragment() : Fragment() {
     companion object {
@@ -39,22 +37,21 @@ class MainFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val list = listOf(
             WeatherModel(WeatherModel.CITY_INFO, CityInfo("SEOUL"), null),
-            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDate.now(), "heavy cloud", 2.444, 3.112)),
-//            WeatherModel(WeatherModel.CITY_INFO, CityInfo("LONDON"),null),
-//            WeatherModel(WeatherModel.WEATHER_INFO,null, WeatherInfo(LocalDate.now().plusDays(1),"heavy cloud",2.444,3.112)),
-//            WeatherModel(WeatherModel.CITY_INFO, CityInfo("CHICAGO"),null),
-//            WeatherModel(WeatherModel.WEATHER_INFO,null, WeatherInfo(LocalDate.now(),"heavy cloud",2.444,3.112))
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now(), "Heavy cloud", "hc", 2.444, 3.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now().plusDays(1), "Snow", "sn", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now().plusDays(2), "Sleet", "sl", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now().plusDays(3), "Hail", "h", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now().plusDays(4), "Showers", "s", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now().plusDays(5), "clear", "c", 5.444, 10.112)),
         )
         val adapter = WeatherAdapter(list)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)) //구분선 추가
 
         viewModel.getSeoulWeather(SEOUL)
-        Log.d(TAG, "onViewCreated: ${viewModel.seoulWeatherList}")
         viewModel.weatherLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-//        adapter.submitList(list)
     }
 
     override fun onDestroyView() {
