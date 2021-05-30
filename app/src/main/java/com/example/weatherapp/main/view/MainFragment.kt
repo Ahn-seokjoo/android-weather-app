@@ -14,6 +14,7 @@ import com.example.weatherapp.databinding.FragmentMainBinding
 import com.example.weatherapp.main.WeatherModel
 import com.example.weatherapp.main.view.adapter.WeatherAdapter
 import com.example.weatherapp.main.viewmodel.WeatherViewModel
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 class MainFragment() : Fragment() {
@@ -35,20 +36,39 @@ class MainFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val time = LocalDate.now().atStartOfDay() as LocalDateTime
         val list = listOf(
             WeatherModel(WeatherModel.CITY_INFO, CityInfo("SEOUL"), null),
-            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now(), "Heavy cloud", "hc", 2.444, 3.112)),
-            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now().plusDays(1), "Snow", "sn", 5.444, 10.112)),
-            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now().plusDays(2), "Sleet", "sl", 5.444, 10.112)),
-            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now().plusDays(3), "Hail", "h", 5.444, 10.112)),
-            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now().plusDays(4), "Showers", "s", 5.444, 10.112)),
-            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(LocalDateTime.now().plusDays(5), "clear", "c", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time, "Heavy cloud", "hc", 2.444, 3.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(1), "Snow", "sn", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(2), "Sleet", "sl", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(3), "Hail", "h", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(4), "Showers", "s", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(5), "clear", "c", 5.444, 10.112)),
+            WeatherModel(WeatherModel.CITY_INFO, CityInfo("LONDON"), null),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time, "Heavy cloud", "hc", 2.444, 3.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(1), "Snow", "sn", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(2), "Sleet", "sl", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(3), "Hail", "h", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(4), "Showers", "s", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(5), "clear", "c", 5.444, 10.112)),
+            WeatherModel(WeatherModel.CITY_INFO, CityInfo("CHICAGO"), null),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time, "Heavy cloud", "hc", 2.444, 3.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(1), "Snow", "sn", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(2), "Sleet", "sl", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(3), "Hail", "h", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(4), "Showers", "s", 5.444, 10.112)),
+            WeatherModel(WeatherModel.WEATHER_INFO, null, WeatherInfo(time.plusDays(5), "clear", "c", 5.444, 10.112)),
         )
         val adapter = WeatherAdapter(list)
+
+        viewModel.getCityWeather(SEOUL)
+        viewModel.getCityWeather(LONDON)
+        viewModel.getCityWeather(CHICAGO)
+
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)) //구분선 추가
 
-        viewModel.getSeoulWeather(SEOUL)
         viewModel.weatherLiveData.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
@@ -59,3 +79,6 @@ class MainFragment() : Fragment() {
         _binding = null
     }
 }
+// coroutine 통해 순차적으로 받기
+// 날씨에 따라 받아오기
+// room 사용하기

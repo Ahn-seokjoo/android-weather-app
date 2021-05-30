@@ -20,7 +20,6 @@ class WeatherRepository {
     fun getWeather(city: Int, callback: (weathers: List<WeatherResult>) -> Unit) {
         for (i in 0 until 6) {
             val nextDay = time.plusDays(i.toLong())
-            Log.d(TAG, "getWeather: $nextDay")
             val callGetWeathers = api.getWeather(city, nextDay.year, nextDay.monthValue, nextDay.dayOfMonth)
 
             callGetWeathers.enqueue( // enqueue 로 비동기 실행
@@ -30,7 +29,6 @@ class WeatherRepository {
                         response: Response<List<WeatherResult>>
                     ) {
                         response.body()?.let {
-                            Log.d(TAG, "onResponse: ${it.slice(0..0)}")
                             callback.invoke(it.slice(0..0))
                         }
                     }

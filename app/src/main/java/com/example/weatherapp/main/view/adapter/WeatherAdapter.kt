@@ -12,6 +12,7 @@ import com.example.weatherapp.main.WeatherModel.Companion.WEATHER_INFO
 import com.example.weatherapp.repository.WeatherResult
 import java.time.Duration
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 const val BASE_IMAGE_URL = "https://www.metaweather.com/static/img/weather/png/"
@@ -53,7 +54,7 @@ class WeatherAdapter(private val list: List<WeatherModel>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when ((list[position].type)) {
-            CITY_INFO -> (holder as CityViewHolder).onBind("SEOUL")
+            CITY_INFO -> (holder as CityViewHolder).onBind(list[position].cityInfo!!.city)
             WEATHER_INFO -> {
                 (holder as WeatherViewHolder).onBind(list[position])
             }
@@ -74,7 +75,7 @@ class WeatherViewHolder(private val binding: RecyclerviewItemBinding) :
 
     fun onBind(result: WeatherModel) {
 
-        val today = LocalDate.now().atStartOfDay()
+        val today = LocalDate.now().atStartOfDay() as LocalDateTime
         val endDates = result.weatherInfo?.date
         val between = Duration.between(today, endDates).toDays().toInt()
 

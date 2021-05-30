@@ -17,7 +17,7 @@ class WeatherViewModel : ViewModel() {
     val weatherLiveData: LiveData<List<WeatherResult>>
         get() = _weatherLiveData
 
-    fun getSeoulWeather(city: Int) {
+    fun getCityWeather(city: Int) {
         weatherRepo.getWeather(city) {
             _seoulWeatherList.addAll(it)
             _weatherLiveData.postValue(_seoulWeatherList)
