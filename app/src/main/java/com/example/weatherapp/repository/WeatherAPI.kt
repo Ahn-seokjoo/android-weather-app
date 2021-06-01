@@ -13,6 +13,11 @@ interface WeatherAPI {
         @Path("day") day: Int
     ): Call<List<WeatherResult>>
 
-    @GET("api/location/{city}")
-    suspend fun getWeatherAsync(@Path("city") city: Int): WeatherResult
+    @GET("api/location/{city}/{year}/{month}/{day}")
+    suspend fun getWeatherAsync(
+        @Path("city") city: Int,
+        @Path("year") year: Int,
+        @Path("month") month: Int,
+        @Path("day") day: Int
+    ): List<WeatherResult>
 }

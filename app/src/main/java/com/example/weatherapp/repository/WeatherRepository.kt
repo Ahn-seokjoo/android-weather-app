@@ -21,7 +21,6 @@ class WeatherRepository {
         for (i in 0 until 6) {
             val nextDay = time.plusDays(i.toLong())
             val callGetWeathers = api.getWeather(city, nextDay.year, nextDay.monthValue, nextDay.dayOfMonth)
-
             callGetWeathers.enqueue( // enqueue 로 비동기 실행
                 object : retrofit2.Callback<List<WeatherResult>> {
                     override fun onResponse(
@@ -43,4 +42,9 @@ class WeatherRepository {
         }
     }
 
+    suspend fun getWeatherAsync(city: Int, year: Int, month: Int, day: Int): List<WeatherResult> =
+        api.getWeatherAsync(city, year, month, day).slice(0..0)
+
 }
+
+
