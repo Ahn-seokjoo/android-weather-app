@@ -2,6 +2,8 @@ package com.example.weatherapp.main.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherapp.databinding.ItemCityNameBinding
@@ -18,15 +20,8 @@ import java.time.format.DateTimeFormatter
 const val BASE_IMAGE_URL = "https://www.metaweather.com/static/img/weather/png/"
 
 class WeatherAdapter(private val list: List<WeatherModel>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    ListAdapter<List<WeatherResult>, RecyclerView.ViewHolder>(WeatherDiffCallback) {
     private val weatherList = mutableListOf<WeatherResult>()
-
-    fun submitList(data: List<WeatherResult>) {
-        weatherList.clear()
-        weatherList.addAll(data)
-        notifyDataSetChanged()
-        weatherList.sortBy { it.applicable_date }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -58,6 +53,15 @@ class WeatherAdapter(private val list: List<WeatherModel>) :
             WEATHER_INFO -> {
                 (holder as WeatherViewHolder).onBind(list[position])
             }
+        }
+    }
+
+    companion object {
+        fun submitList(weatherAdapter: WeatherAdapter, data: List<WeatherResult>) {
+            weatherAdapter.weatherList.clear()
+            weatherAdapter.weatherList.addAll(data)
+            weatherAdapter.notifyDataSetChanged()
+            weatherAdapter.weatherList.sortBy { it.applicable_date }
         }
     }
 
@@ -95,4 +99,14 @@ class WeatherViewHolder(private val binding: RecyclerviewItemBinding) :
             minTemp.text = "${result.weatherInfo?.minTemp?.toInt()}℃"
         }
     }
+}
+object WeatherDiffCallback : DiffUtil.ItemCallback<List<WeatherResult>>() {
+    override fun areItemsTheSame(oldItem: List<WeatherResult>, newItem: List<WeatherResult>): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: List<WeatherResult>, newItem: List<WeatherResult>): Boolean {
+        return oldItem == newItem
+    }
+
 }

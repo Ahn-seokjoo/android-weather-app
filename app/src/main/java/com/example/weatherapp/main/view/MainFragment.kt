@@ -55,7 +55,13 @@ class MainFragment : Fragment() {
                 WeatherModel(
                     WeatherModel.WEATHER_INFO,
                     null,
-                    WeatherInfo(time, seoulList[0].weather_State_Name, seoulList[0].weather_State_Abbr, seoulList[0].min_Temp, seoulList[0].max_Temp)
+                    WeatherInfo(
+                        time,
+                        seoulList[0].weather_State_Name,
+                        seoulList[0].weather_State_Abbr,
+                        seoulList[0].min_Temp,
+                        seoulList[0].max_Temp
+                    )
                 ),
                 WeatherModel(
                     WeatherModel.WEATHER_INFO,
@@ -252,7 +258,7 @@ class MainFragment : Fragment() {
             binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)) //구분선 추가
 
             viewModel.weatherLiveData.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
+                WeatherAdapter.submitList(adapter, it)
             }
         }
     }
