@@ -268,6 +268,4 @@ class MainFragment : Fragment() {
         _binding = null
     }
 }
-// coroutine 통해 순차적으로 받기
-// 날씨에 따라 받아오기
 // room 사용하기
