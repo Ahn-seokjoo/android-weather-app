@@ -19,7 +19,6 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
 
     private val time = LocalDate.now().atStartOfDay() as LocalDateTime
 
-
     private val _weatherLiveData = MutableLiveData<List<WeatherResult>>()
     val weatherLiveData: LiveData<List<WeatherResult>>
         get() = _weatherLiveData

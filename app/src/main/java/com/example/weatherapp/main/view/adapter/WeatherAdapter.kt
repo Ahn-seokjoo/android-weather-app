@@ -60,8 +60,8 @@ class WeatherAdapter(private val list: List<WeatherModel>) :
         fun submitList(weatherAdapter: WeatherAdapter, data: List<WeatherResult>) {
             weatherAdapter.weatherList.clear()
             weatherAdapter.weatherList.addAll(data)
-            weatherAdapter.notifyDataSetChanged()
             weatherAdapter.weatherList.sortBy { it.applicable_date }
+            weatherAdapter.notifyDataSetChanged()
         }
     }
 

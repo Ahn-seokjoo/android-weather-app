@@ -45,6 +45,7 @@ class MainFragment : Fragment() {
         val londonList = mutableListOf<WeatherResult>()
         val chicagoList = mutableListOf<WeatherResult>()
 
+
         lifecycleScope.launch {
             seoulList.addAll(viewModel.getCityWeatherAsync(SEOUL))
             londonList.addAll(viewModel.getCityWeatherAsync(LONDON))
@@ -268,4 +269,6 @@ class MainFragment : Fragment() {
         _binding = null
     }
 }
-// room 사용하기
+// 라이프 사이클 공부해서 다시 안그리게끔
+// 라이브 데이터
+// 안쓰는 코드 정리c
