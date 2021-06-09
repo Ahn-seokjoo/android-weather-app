@@ -9,7 +9,7 @@ class RoomRepository : Repository {
         return _seoulWeatherList.sortedBy { it.applicable_date }
     }
 
-    override fun addWeather(weather: List<WeatherResult>) {
+    override suspend fun addWeather(weather: List<WeatherResult>) {
         _seoulWeatherList.addAll(weather)
     }
 

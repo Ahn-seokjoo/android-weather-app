@@ -4,10 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.main.data.local.repository.LocalRepository
 import com.example.weatherapp.main.data.local.repository.RoomRepository
 import com.example.weatherapp.repository.WeatherRepository
 import com.example.weatherapp.repository.WeatherResult
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -24,10 +26,12 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
         get() = _weatherLiveData
 
     suspend fun getCityWeatherAsync(city: Int): List<WeatherResult> {
-        for (i in 0 until 6) {
-            val nextDays = time.plusDays(i.toLong())
-            dbWeatherRepo.addWeather((weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth)))
-            _weatherLiveData.postValue(roomRepo.getAll())
+        viewModelScope.launch {
+            for (i in 0 until 6) {
+                val nextDays = time.plusDays(i.toLong())
+                dbWeatherRepo.addWeather((weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth)))
+                _weatherLiveData.postValue(roomRepo.getAll())
+            }
         }
         return dbWeatherRepo.getAll()
     }

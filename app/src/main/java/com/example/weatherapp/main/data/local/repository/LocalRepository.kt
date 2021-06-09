@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.example.weatherapp.main.data.local.WeatherDatabase
 import com.example.weatherapp.repository.WeatherResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class LocalRepository(private val context: Context) : Repository {
     private val db = Room.databaseBuilder(context, WeatherDatabase::class.java, "Weather.db").allowMainThreadQueries().build()
@@ -12,7 +14,7 @@ class LocalRepository(private val context: Context) : Repository {
         return db.weatherDao().getAll()
     }
 
-    override fun addWeather(weather: List<WeatherResult>) {
+    override suspend fun addWeather(weather: List<WeatherResult>) = withContext(Dispatchers.IO) {
         db.weatherDao().addWeather(weather)
     }
 
