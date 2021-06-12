@@ -13,9 +13,9 @@ import com.example.weatherapp.repository.WeatherResult
 
 const val BASE_IMAGE_URL = "https://www.metaweather.com/static/img/weather/png/"
 
-class WeatherAdapter(private val list: List<WeatherModel>) :
+class WeatherAdapter :
     ListAdapter<List<WeatherResult>, RecyclerView.ViewHolder>(WeatherDiffCallback) {
-    private val weatherList = mutableListOf<WeatherResult>()
+    val weatherList = mutableListOf<WeatherModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -34,27 +34,27 @@ class WeatherAdapter(private val list: List<WeatherModel>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return list[position].type
+        return weatherList[position].type
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return weatherList.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when ((list[position].type)) {
-            CITY_INFO -> (holder as CityViewHolder).onBind(list[position].cityInfo!!.city)
+        when ((weatherList[position].type)) {
+            CITY_INFO -> (holder as CityViewHolder).onBind(weatherList[position].cityInfo!!.city)
             WEATHER_INFO -> {
-                (holder as WeatherViewHolder).onBind(list[position])
+                (holder as WeatherViewHolder).onBind(weatherList[position])
             }
         }
     }
 
     companion object {
-        fun submitList(weatherAdapter: WeatherAdapter, data: List<WeatherResult>) {
+        fun submitList(weatherAdapter: WeatherAdapter, data: List<WeatherModel>) {
             weatherAdapter.weatherList.clear()
             weatherAdapter.weatherList.addAll(data)
-            weatherAdapter.weatherList.sortBy { it.applicable_date }
+            weatherAdapter.weatherList.sortBy { it.weatherInfo?.date }
             weatherAdapter.notifyDataSetChanged()
         }
     }
