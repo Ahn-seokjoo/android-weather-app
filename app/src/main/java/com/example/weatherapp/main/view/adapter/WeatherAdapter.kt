@@ -54,7 +54,7 @@ class WeatherAdapter :
         fun submitList(weatherAdapter: WeatherAdapter, data: List<WeatherModel>) {
             weatherAdapter.weatherList.clear()
             weatherAdapter.weatherList.addAll(data)
-            weatherAdapter.weatherList.sortBy { it.weatherInfo?.date }
+//            weatherAdapter.weatherList.sortBy { it.weatherInfo?.date }
             weatherAdapter.notifyDataSetChanged()
         }
     }

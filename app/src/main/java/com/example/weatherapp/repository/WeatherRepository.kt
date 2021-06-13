@@ -2,11 +2,9 @@ package com.example.weatherapp.repository
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.time.LocalDate
 
 class WeatherRepository {
     private val BASE_URL = "https://www.metaweather.com/"
-    private val time: LocalDate = LocalDate.now()
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())

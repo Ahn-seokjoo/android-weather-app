@@ -29,11 +29,11 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
 
     private val time = LocalDate.now().atStartOfDay() as LocalDateTime
 
-    val seoulList = mutableListOf<WeatherResult>()
-    val londonList = mutableListOf<WeatherResult>()
-    val chicagoList = mutableListOf<WeatherResult>()
+    private val seoulList = mutableListOf<WeatherResult>()
+    private val londonList = mutableListOf<WeatherResult>()
+    private val chicagoList = mutableListOf<WeatherResult>()
 
-    val allWeatherList = mutableListOf<WeatherModel>()
+    private val allWeatherList = mutableListOf<WeatherModel>()
 
     private val _weatherLiveData = MutableLiveData<List<WeatherModel>>()
     val weatherLiveData: LiveData<List<WeatherModel>>
@@ -44,7 +44,8 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
             getCityWeatherAsync(SEOUL)
             getCityWeatherAsync(LONDON)
             getCityWeatherAsync(CHICAGO)
-        }
+            makeWeatherList()
+        }.onJoin
     }
 
     private suspend fun getCityWeatherAsync(city: Int) {
@@ -64,8 +65,7 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                 }
             }
         }.join()
-//        Log.d(TAG, "getCityWeatherAsync: seoulList = $seoulList, londonList = $londonList, chicagoList = $chicagoList")
-        makeWeatherList()
+
     }
 
     private fun makeWeatherList() {
@@ -138,139 +138,139 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                 )
             ),
             WeatherModel(WeatherModel.CITY_INFO, CityInfo("LONDON"), null),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time,
-//                londonList[0].weather_State_Name,
-//                londonList[0].weather_State_Abbr,
-//                londonList[0].min_Temp,
-//                londonList[0].max_Temp
-//            )
-//        ),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time.plusDays(1),
-//                londonList[1].weather_State_Name,
-//                londonList[1].weather_State_Abbr,
-//                londonList[1].min_Temp,
-//                londonList[1].max_Temp
-//            )
-//        ),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time.plusDays(2),
-//                londonList[2].weather_State_Name,
-//                londonList[2].weather_State_Abbr,
-//                londonList[2].min_Temp,
-//                londonList[2].max_Temp
-//            )
-//        ),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time.plusDays(3),
-//                londonList[3].weather_State_Name,
-//                londonList[3].weather_State_Abbr,
-//                londonList[3].min_Temp,
-//                londonList[3].max_Temp
-//            )
-//        ),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time.plusDays(4),
-//                londonList[4].weather_State_Name,
-//                londonList[4].weather_State_Abbr,
-//                londonList[4].min_Temp,
-//                londonList[4].max_Temp
-//            )
-//        ),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time.plusDays(5),
-//                londonList[5].weather_State_Name,
-//                londonList[5].weather_State_Abbr,
-//                londonList[5].min_Temp,
-//                londonList[5].max_Temp
-//            )
-//        ),
-//        WeatherModel(WeatherModel.CITY_INFO, CityInfo("CHICAGO"), null),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time,
-//                chicagoList[0].weather_State_Name,
-//                chicagoList[0].weather_State_Abbr,
-//                chicagoList[0].min_Temp,
-//                chicagoList[0].max_Temp
-//            )
-//        ),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time.plusDays(1),
-//                chicagoList[1].weather_State_Name,
-//                chicagoList[1].weather_State_Abbr,
-//                chicagoList[1].min_Temp,
-//                chicagoList[1].max_Temp
-//            )
-//        ),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time.plusDays(2),
-//                chicagoList[2].weather_State_Name,
-//                chicagoList[2].weather_State_Abbr,
-//                chicagoList[2].min_Temp,
-//                chicagoList[2].max_Temp
-//            )
-//        ),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time.plusDays(3),
-//                chicagoList[3].weather_State_Name,
-//                chicagoList[3].weather_State_Abbr,
-//                chicagoList[3].min_Temp,
-//                chicagoList[3].max_Temp
-//            )
-//        ),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time.plusDays(4),
-//                chicagoList[4].weather_State_Name,
-//                chicagoList[4].weather_State_Abbr,
-//                chicagoList[4].min_Temp,
-//                chicagoList[4].max_Temp
-//            )
-//        ),
-//        WeatherModel(
-//            WeatherModel.WEATHER_INFO,
-//            null,
-//            WeatherInfo(
-//                time.plusDays(5),
-//                chicagoList[5].weather_State_Name,
-//                chicagoList[5].weather_State_Abbr,
-//                chicagoList[5].min_Temp,
-//                chicagoList[5].max_Temp
-//            )
-//        ),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time,
+                    londonList[0].weather_State_Name,
+                    londonList[0].weather_State_Abbr,
+                    londonList[0].min_Temp,
+                    londonList[0].max_Temp
+                )
+            ),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time.plusDays(1),
+                    londonList[1].weather_State_Name,
+                    londonList[1].weather_State_Abbr,
+                    londonList[1].min_Temp,
+                    londonList[1].max_Temp
+                )
+            ),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time.plusDays(2),
+                    londonList[2].weather_State_Name,
+                    londonList[2].weather_State_Abbr,
+                    londonList[2].min_Temp,
+                    londonList[2].max_Temp
+                )
+            ),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time.plusDays(3),
+                    londonList[3].weather_State_Name,
+                    londonList[3].weather_State_Abbr,
+                    londonList[3].min_Temp,
+                    londonList[3].max_Temp
+                )
+            ),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time.plusDays(4),
+                    londonList[4].weather_State_Name,
+                    londonList[4].weather_State_Abbr,
+                    londonList[4].min_Temp,
+                    londonList[4].max_Temp
+                )
+            ),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time.plusDays(5),
+                    londonList[5].weather_State_Name,
+                    londonList[5].weather_State_Abbr,
+                    londonList[5].min_Temp,
+                    londonList[5].max_Temp
+                )
+            ),
+            WeatherModel(WeatherModel.CITY_INFO, CityInfo("CHICAGO"), null),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time,
+                    chicagoList[0].weather_State_Name,
+                    chicagoList[0].weather_State_Abbr,
+                    chicagoList[0].min_Temp,
+                    chicagoList[0].max_Temp
+                )
+            ),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time.plusDays(1),
+                    chicagoList[1].weather_State_Name,
+                    chicagoList[1].weather_State_Abbr,
+                    chicagoList[1].min_Temp,
+                    chicagoList[1].max_Temp
+                )
+            ),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time.plusDays(2),
+                    chicagoList[2].weather_State_Name,
+                    chicagoList[2].weather_State_Abbr,
+                    chicagoList[2].min_Temp,
+                    chicagoList[2].max_Temp
+                )
+            ),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time.plusDays(3),
+                    chicagoList[3].weather_State_Name,
+                    chicagoList[3].weather_State_Abbr,
+                    chicagoList[3].min_Temp,
+                    chicagoList[3].max_Temp
+                )
+            ),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time.plusDays(4),
+                    chicagoList[4].weather_State_Name,
+                    chicagoList[4].weather_State_Abbr,
+                    chicagoList[4].min_Temp,
+                    chicagoList[4].max_Temp
+                )
+            ),
+            WeatherModel(
+                WeatherModel.WEATHER_INFO,
+                null,
+                WeatherInfo(
+                    time.plusDays(5),
+                    chicagoList[5].weather_State_Name,
+                    chicagoList[5].weather_State_Abbr,
+                    chicagoList[5].min_Temp,
+                    chicagoList[5].max_Temp
+                )
+            ),
         )
         allWeatherList.clear()
         allWeatherList.addAll(list)
