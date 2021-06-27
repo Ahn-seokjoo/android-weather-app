@@ -12,5 +12,5 @@ interface WeatherDao {
     fun addWeather(weather: List<WeatherResult>)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateWeather(weather: List<WeatherResult>)
+    fun updateWeather(weather: WeatherResult)
 }

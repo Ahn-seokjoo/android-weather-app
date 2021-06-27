@@ -17,6 +17,7 @@ import com.example.weatherapp.main.view.MainFragment.Companion.LONDON
 import com.example.weatherapp.main.view.MainFragment.Companion.SEOUL
 import com.example.weatherapp.repository.WeatherRepository
 import com.example.weatherapp.repository.WeatherResult
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -40,7 +41,7 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
         get() = _weatherLiveData
 
     suspend fun getWeather() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getCityWeatherAsync(SEOUL)
             getCityWeatherAsync(LONDON)
             getCityWeatherAsync(CHICAGO)
@@ -54,16 +55,17 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                 val nextDays = time.plusDays(i.toLong())
                 when (city) {
                     SEOUL -> {
-                        seoulList.addAll((weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth)))
+                        seoulList.addAll(weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth))
                     }
                     LONDON -> {
-                        londonList.addAll((weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth)))
+                        londonList.addAll(weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth))
                     }
                     CHICAGO -> {
-                        chicagoList.addAll((weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth)))
+                        chicagoList.addAll(weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth))
                     }
                 }
             }
+
         }.join()
 
     }

@@ -13,7 +13,7 @@ import com.example.weatherapp.repository.WeatherResult
 
 const val BASE_IMAGE_URL = "https://www.metaweather.com/static/img/weather/png/"
 
-class WeatherAdapter :
+class WeatherAdapter(val itemClickListener: (weatherList: WeatherModel) -> Unit) :
     ListAdapter<List<WeatherResult>, RecyclerView.ViewHolder>(WeatherDiffCallback) {
     val weatherList = mutableListOf<WeatherModel>()
 
@@ -47,6 +47,9 @@ class WeatherAdapter :
             WEATHER_INFO -> {
                 (holder as WeatherViewHolder).onBind(weatherList[position])
             }
+        }
+        holder.itemView.setOnClickListener {
+            itemClickListener.invoke(weatherList[position])
         }
     }
 

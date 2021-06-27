@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-
 @Entity
 data class WeatherResult(
         @PrimaryKey(autoGenerate = true) @SerializedName("id") val id: Long,

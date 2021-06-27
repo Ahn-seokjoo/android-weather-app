@@ -7,6 +7,6 @@ interface Repository {
 
     suspend fun addWeather(weather: List<WeatherResult>)
 
-    fun updateWeather(weather: List<WeatherResult>)
+    fun updateWeather(weather: WeatherResult)
 
 }

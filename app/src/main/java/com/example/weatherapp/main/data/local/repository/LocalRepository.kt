@@ -8,7 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class LocalRepository(private val context: Context) : Repository {
-    private val db = Room.databaseBuilder(context, WeatherDatabase::class.java, "Weather.db").allowMainThreadQueries().build()
+    private val db = Room.databaseBuilder(context, WeatherDatabase::class.java, "Weather.db")
+        .allowMainThreadQueries().build()
 
     override fun getAll(): List<WeatherResult> {
         return db.weatherDao().getAll()
@@ -18,7 +19,7 @@ class LocalRepository(private val context: Context) : Repository {
         db.weatherDao().addWeather(weather)
     }
 
-    override fun updateWeather(weather: List<WeatherResult>) {
+    override fun updateWeather(weather: WeatherResult) {
         db.weatherDao().updateWeather(weather)
     }
 }
