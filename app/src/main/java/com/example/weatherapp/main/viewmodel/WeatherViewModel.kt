@@ -21,11 +21,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 class WeatherViewModel(application: Application) : AndroidViewModel(application) {
     private val weatherRepo = WeatherRepository()
 
-    private val dbWeatherRepo = LocalRepository(application)
+    val dbWeatherRepo = LocalRepository(application)
     private val roomRepo = RoomRepository()
 
     private val time = LocalDate.now().atStartOfDay() as LocalDateTime
@@ -45,23 +47,37 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
             getCityWeatherAsync(SEOUL)
             getCityWeatherAsync(LONDON)
             getCityWeatherAsync(CHICAGO)
-            makeWeatherList()
         }.onJoin
     }
 
+    suspend fun setWeather() {
+        setWeatherList()
+    }
+
+    suspend fun updateWeather() {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d(TAG, "updateWeather: date:${Date.from(time.atZone(ZoneId.systemDefault()).toInstant())}")
+            Log.d(TAG, "updateWeather: dbdate:${dbWeatherRepo.getAll()}")
+            if (Date.from(time.atZone(ZoneId.systemDefault()).toInstant()) != dbWeatherRepo.getAll()[0].applicable_date) {
+                dbWeatherRepo.deleteAllWeather()
+                getWeather()
+            }
+        }
+    }
+
     private suspend fun getCityWeatherAsync(city: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             for (i in 0 until 6) {
                 val nextDays = time.plusDays(i.toLong())
                 when (city) {
                     SEOUL -> {
-                        seoulList.addAll(weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth))
+                        dbWeatherRepo.addWeather(weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth))
                     }
                     LONDON -> {
-                        londonList.addAll(weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth))
+                        dbWeatherRepo.addWeather(weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth))
                     }
                     CHICAGO -> {
-                        chicagoList.addAll(weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth))
+                        dbWeatherRepo.addWeather(weatherRepo.getWeatherAsync(city, nextDays.year, nextDays.monthValue, nextDays.dayOfMonth))
                     }
                 }
             }
@@ -70,7 +86,7 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
 
     }
 
-    private fun makeWeatherList() {
+    private suspend fun setWeatherList() {
         val list = listOf(
             WeatherModel(WeatherModel.CITY_INFO, CityInfo("SEOUL"), null),
             WeatherModel(
@@ -78,206 +94,16 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                 null,
                 WeatherInfo(
                     time,
-                    seoulList[0].weather_State_Name,
-                    seoulList[0].weather_State_Abbr,
-                    seoulList[0].min_Temp,
-                    seoulList[0].max_Temp
+                    dbWeatherRepo.getAll()[0].weather_State_Name,
+                    dbWeatherRepo.getAll()[0].weather_State_Abbr,
+                    dbWeatherRepo.getAll()[0].min_Temp,
+                    dbWeatherRepo.getAll()[0].max_Temp
                 )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(1),
-                    seoulList[1].weather_State_Name,
-                    seoulList[1].weather_State_Abbr,
-                    seoulList[1].min_Temp,
-                    seoulList[1].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(2),
-                    seoulList[2].weather_State_Name,
-                    seoulList[2].weather_State_Abbr,
-                    seoulList[2].min_Temp,
-                    seoulList[2].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(3),
-                    seoulList[3].weather_State_Name,
-                    seoulList[3].weather_State_Abbr,
-                    seoulList[3].min_Temp,
-                    seoulList[3].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(4),
-                    seoulList[4].weather_State_Name,
-                    seoulList[4].weather_State_Abbr,
-                    seoulList[4].min_Temp,
-                    seoulList[4].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(5),
-                    seoulList[5].weather_State_Name,
-                    seoulList[5].weather_State_Abbr,
-                    seoulList[5].min_Temp,
-                    seoulList[5].max_Temp
-                )
-            ),
-            WeatherModel(WeatherModel.CITY_INFO, CityInfo("LONDON"), null),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time,
-                    londonList[0].weather_State_Name,
-                    londonList[0].weather_State_Abbr,
-                    londonList[0].min_Temp,
-                    londonList[0].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(1),
-                    londonList[1].weather_State_Name,
-                    londonList[1].weather_State_Abbr,
-                    londonList[1].min_Temp,
-                    londonList[1].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(2),
-                    londonList[2].weather_State_Name,
-                    londonList[2].weather_State_Abbr,
-                    londonList[2].min_Temp,
-                    londonList[2].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(3),
-                    londonList[3].weather_State_Name,
-                    londonList[3].weather_State_Abbr,
-                    londonList[3].min_Temp,
-                    londonList[3].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(4),
-                    londonList[4].weather_State_Name,
-                    londonList[4].weather_State_Abbr,
-                    londonList[4].min_Temp,
-                    londonList[4].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(5),
-                    londonList[5].weather_State_Name,
-                    londonList[5].weather_State_Abbr,
-                    londonList[5].min_Temp,
-                    londonList[5].max_Temp
-                )
-            ),
-            WeatherModel(WeatherModel.CITY_INFO, CityInfo("CHICAGO"), null),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time,
-                    chicagoList[0].weather_State_Name,
-                    chicagoList[0].weather_State_Abbr,
-                    chicagoList[0].min_Temp,
-                    chicagoList[0].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(1),
-                    chicagoList[1].weather_State_Name,
-                    chicagoList[1].weather_State_Abbr,
-                    chicagoList[1].min_Temp,
-                    chicagoList[1].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(2),
-                    chicagoList[2].weather_State_Name,
-                    chicagoList[2].weather_State_Abbr,
-                    chicagoList[2].min_Temp,
-                    chicagoList[2].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(3),
-                    chicagoList[3].weather_State_Name,
-                    chicagoList[3].weather_State_Abbr,
-                    chicagoList[3].min_Temp,
-                    chicagoList[3].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(4),
-                    chicagoList[4].weather_State_Name,
-                    chicagoList[4].weather_State_Abbr,
-                    chicagoList[4].min_Temp,
-                    chicagoList[4].max_Temp
-                )
-            ),
-            WeatherModel(
-                WeatherModel.WEATHER_INFO,
-                null,
-                WeatherInfo(
-                    time.plusDays(5),
-                    chicagoList[5].weather_State_Name,
-                    chicagoList[5].weather_State_Abbr,
-                    chicagoList[5].min_Temp,
-                    chicagoList[5].max_Temp
-                )
-            ),
+            )
         )
         allWeatherList.clear()
         allWeatherList.addAll(list)
         _weatherLiveData.postValue(allWeatherList)
-        Log.d(TAG, "makeWeatherList: $_weatherLiveData")
     }
 
 }

@@ -5,7 +5,7 @@ import com.example.weatherapp.repository.WeatherResult
 class RoomRepository : Repository {
     private val _weatherList = mutableListOf<WeatherResult>()
 
-    override fun getAll(): List<WeatherResult> {
+    override suspend fun getAll(): List<WeatherResult> {
         return _weatherList.sortedBy { it.applicable_date }
     }
 
@@ -13,7 +13,7 @@ class RoomRepository : Repository {
         _weatherList.addAll(weather)
     }
 
-    override fun updateWeather(weather: WeatherResult) {
+    override suspend fun updateWeather(weather: WeatherResult) {
         val changeData: List<WeatherResult> = _weatherList.map {
 
             if (it.id != weather.id) {
@@ -26,5 +26,9 @@ class RoomRepository : Repository {
             clear()
             addAll(changeData)
         }
+    }
+
+    override suspend fun deleteAllWeather() {
+        _weatherList.clear()
     }
 }

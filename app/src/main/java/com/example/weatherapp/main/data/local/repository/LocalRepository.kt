@@ -9,17 +9,21 @@ import kotlinx.coroutines.withContext
 
 class LocalRepository(private val context: Context) : Repository {
     private val db = Room.databaseBuilder(context, WeatherDatabase::class.java, "Weather.db")
-        .allowMainThreadQueries().build()
+        .build()
 
-    override fun getAll(): List<WeatherResult> {
-        return db.weatherDao().getAll()
+    override suspend fun getAll(): List<WeatherResult> = withContext(Dispatchers.IO) {
+        db.weatherDao().getAll()
     }
 
     override suspend fun addWeather(weather: List<WeatherResult>) = withContext(Dispatchers.IO) {
         db.weatherDao().addWeather(weather)
     }
 
-    override fun updateWeather(weather: WeatherResult) {
+    override suspend fun updateWeather(weather: WeatherResult) {
         db.weatherDao().updateWeather(weather)
+    }
+
+    override suspend fun deleteAllWeather() {
+        db.weatherDao().deleteAllWeather(db.weatherDao().getAll())
     }
 }

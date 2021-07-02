@@ -13,4 +13,7 @@ interface WeatherDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateWeather(weather: WeatherResult)
+
+    @Delete
+    fun deleteAllWeather(weather: List<WeatherResult>)
 }

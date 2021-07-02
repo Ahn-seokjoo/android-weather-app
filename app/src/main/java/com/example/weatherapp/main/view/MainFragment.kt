@@ -35,7 +35,10 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
+
             viewModel.getWeather()
+            viewModel.setWeather()
+
             val adapter = WeatherAdapter {
                 Toast.makeText(
                     view.context,
