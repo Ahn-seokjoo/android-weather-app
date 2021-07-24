@@ -1,5 +1,7 @@
 package com.example.weatherapp.main.view.adapter
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherapp.databinding.RecyclerviewItemBinding
@@ -13,7 +15,7 @@ class WeatherViewHolder(private val binding: RecyclerviewItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(result: WeatherModel) {
-
+        Log.d(TAG, "onBind: $result")
         val today = LocalDate.now().atStartOfDay() as LocalDateTime
         val endDates = result.weatherInfo?.date
         val between = Duration.between(today, endDates).toDays().toInt()

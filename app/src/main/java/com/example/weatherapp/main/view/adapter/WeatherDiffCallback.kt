@@ -1,14 +1,14 @@
 package com.example.weatherapp.main.view.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.weatherapp.repository.WeatherResult
+import com.example.weatherapp.main.WeatherModel
 
-object WeatherDiffCallback : DiffUtil.ItemCallback<List<WeatherResult>>() {
-    override fun areItemsTheSame(oldItem: List<WeatherResult>, newItem: List<WeatherResult>): Boolean {
+object WeatherDiffCallback : DiffUtil.ItemCallback<WeatherModel>() {
+    override fun areItemsTheSame(oldItem: WeatherModel, newItem: WeatherModel): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: List<WeatherResult>, newItem: List<WeatherResult>): Boolean {
+    override fun areContentsTheSame(oldItem: WeatherModel, newItem: WeatherModel): Boolean {
         return oldItem == newItem
     }
 }

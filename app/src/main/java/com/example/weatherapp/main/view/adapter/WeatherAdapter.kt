@@ -7,59 +7,47 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.databinding.ItemCityNameBinding
 import com.example.weatherapp.databinding.RecyclerviewItemBinding
 import com.example.weatherapp.main.WeatherModel
-import com.example.weatherapp.main.WeatherModel.Companion.CITY_INFO
-import com.example.weatherapp.main.WeatherModel.Companion.WEATHER_INFO
-import com.example.weatherapp.repository.WeatherResult
 
 const val BASE_IMAGE_URL = "https://www.metaweather.com/static/img/weather/png/"
 
-class WeatherAdapter(val itemClickListener: (weatherList: WeatherModel) -> Unit) :
-    ListAdapter<List<WeatherResult>, RecyclerView.ViewHolder>(WeatherDiffCallback) {
-    val weatherList = mutableListOf<WeatherModel>()
+class WeatherAdapter(private val itemClickListener: (weatherList: WeatherModel) -> Unit) :
+    ListAdapter<WeatherModel, RecyclerView.ViewHolder>(WeatherDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
         return when (viewType) {
-            CITY_INFO -> {
+            WeatherModel.CITY_INFO -> {
                 val binding: ItemCityNameBinding = ItemCityNameBinding.inflate(inflater, parent, false)
                 CityViewHolder(binding)
             }
-            WEATHER_INFO -> {
+            WeatherModel.WEATHER_INFO -> {
                 val binding: RecyclerviewItemBinding = RecyclerviewItemBinding.inflate(inflater, parent, false)
                 WeatherViewHolder(binding)
             }
-            else -> throw RuntimeException("알수 없는 뷰타입 에러")
+            else -> throw RuntimeException("알 수 없는 뷰타입 에러")
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return weatherList[position].type
-    }
-
-    override fun getItemCount(): Int {
-        return weatherList.size
+        return when (getItem(position).type) {
+            WeatherModel.CITY_INFO -> 0
+            WeatherModel.WEATHER_INFO -> 1
+            else -> throw java.lang.RuntimeException("알 수 없는 뷰타입 에러")
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when ((weatherList[position].type)) {
-            CITY_INFO -> (holder as CityViewHolder).onBind(weatherList[position].cityInfo!!.city)
-            WEATHER_INFO -> {
-                (holder as WeatherViewHolder).onBind(weatherList[position])
+        when (getItem(position).type) {
+            WeatherModel.CITY_INFO -> {
+                (holder as CityViewHolder).onBind(getItem(position))
+            }
+            WeatherModel.WEATHER_INFO -> {
+                (holder as WeatherViewHolder).onBind(getItem(position))
             }
         }
         holder.itemView.setOnClickListener {
-            itemClickListener.invoke(weatherList[position])
+            itemClickListener.invoke(getItem(position) as WeatherModel)
         }
     }
-
-    companion object {
-        fun submitList(weatherAdapter: WeatherAdapter, data: List<WeatherModel>) {
-            weatherAdapter.weatherList.clear()
-            weatherAdapter.weatherList.addAll(data)
-//            weatherAdapter.weatherList.sortBy { it.weatherInfo?.date }
-            weatherAdapter.notifyDataSetChanged()
-        }
-    }
-
 }
