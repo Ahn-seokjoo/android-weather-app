@@ -12,5 +12,4 @@ data class WeatherModel(
         const val CITY_INFO = 0
         const val WEATHER_INFO = 1
     }
-
 }

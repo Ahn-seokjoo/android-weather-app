@@ -17,11 +17,6 @@ import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 
 class MainFragment : Fragment() {
-    companion object {
-        const val SEOUL = 1132599
-        const val LONDON = 44418
-        const val CHICAGO = 2379574
-    }
 
     private val viewModel: WeatherViewModel by activityViewModels()
     private var _binding: FragmentMainBinding? = null
@@ -35,22 +30,28 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
-
             viewModel.getWeather()
             viewModel.setWeather()
-
-            val adapter = WeatherAdapter {
-                Toast.makeText(
-                    view.context,
-                    "${it.weatherInfo?.date?.format(DateTimeFormatter.ofPattern("E dd MMM"))}의 날씨는 ${it.weatherInfo?.weatherStateName} 입니다.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            viewModel.weatherLiveData.observe(viewLifecycleOwner) {
-                binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)) //구분선 추가
-                binding.recyclerView.adapter = adapter
-                WeatherAdapter.submitList(adapter, it)
-            }
+        }
+        val adapter = WeatherAdapter {
+            Toast.makeText(
+                view.context,
+                "${it.weatherInfo?.date?.format(DateTimeFormatter.ofPattern("E dd MMM"))}의 날씨는 ${it.weatherInfo?.weatherStateName} 입니다.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)) //구분선 추가
+        binding.recyclerView.adapter = adapter
+        viewModel.weatherLiveData.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
     }
+
+    companion object {
+        const val SEOUL = 1132599
+        const val LONDON = 44418
+        const val CHICAGO = 2379574
+    }
+
 }
+
