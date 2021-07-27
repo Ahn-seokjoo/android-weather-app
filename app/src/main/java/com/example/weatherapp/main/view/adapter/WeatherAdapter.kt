@@ -2,6 +2,7 @@ package com.example.weatherapp.main.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.databinding.ItemCityNameBinding
@@ -10,7 +11,7 @@ import com.example.weatherapp.main.WeatherModel
 
 const val BASE_IMAGE_URL = "https://www.metaweather.com/static/img/weather/png/"
 
-class WeatherAdapter(private val itemClickListener: (weatherList: WeatherModel) -> Unit) :
+class WeatherAdapter :
     ListAdapter<WeatherModel, RecyclerView.ViewHolder>(WeatherDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -23,6 +24,12 @@ class WeatherAdapter(private val itemClickListener: (weatherList: WeatherModel) 
             }
             WeatherModel.WEATHER_INFO -> {
                 val binding: RecyclerviewItemBinding = RecyclerviewItemBinding.inflate(inflater, parent, false)
+                binding.root.setOnClickListener {
+                    Toast.makeText(
+                        parent.context, "${binding.applicableDate.text}" +
+                                " 날씨는 ${binding.weatherStatus.text} 입니다.", Toast.LENGTH_SHORT
+                    ).show()
+                }
                 WeatherViewHolder(binding)
             }
             else -> throw RuntimeException("알 수 없는 뷰타입 에러")
@@ -45,9 +52,6 @@ class WeatherAdapter(private val itemClickListener: (weatherList: WeatherModel) 
             WeatherModel.WEATHER_INFO -> {
                 (holder as WeatherViewHolder).onBind(getItem(position))
             }
-        }
-        holder.itemView.setOnClickListener {
-            itemClickListener.invoke(getItem(position) as WeatherModel)
         }
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,7 +13,6 @@ import com.example.weatherapp.databinding.FragmentMainBinding
 import com.example.weatherapp.main.view.adapter.WeatherAdapter
 import com.example.weatherapp.main.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
-import java.time.format.DateTimeFormatter
 
 class MainFragment : Fragment() {
 
@@ -33,13 +31,7 @@ class MainFragment : Fragment() {
             viewModel.getWeather()
             viewModel.setWeather()
         }
-        val adapter = WeatherAdapter {
-            Toast.makeText(
-                view.context,
-                "${it.weatherInfo?.date?.format(DateTimeFormatter.ofPattern("E dd MMM"))}의 날씨는 ${it.weatherInfo?.weatherStateName} 입니다.",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        val adapter = WeatherAdapter()
         binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)) //구분선 추가
         binding.recyclerView.adapter = adapter
         viewModel.weatherLiveData.observe(viewLifecycleOwner) {
