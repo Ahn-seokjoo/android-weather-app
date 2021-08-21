@@ -18,6 +18,7 @@
 - recyclerView
 - ViewModel
 - Fragment
+- Room
 3. [Glide](https://github.com/bumptech/glide)
 4. [Retrofit2](https://github.com/square/retrofit)
 
