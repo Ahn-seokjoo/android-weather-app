@@ -10,7 +10,3 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 }
-
-// 1. SEOUL,LONDON, CHICAGO 쓰기
-// 2. 3번 불러야하는 것 (도시별)
-// 3. 도씨 넣기
